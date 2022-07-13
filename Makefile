@@ -1,7 +1,8 @@
 ### Workflow
 #
-# TODO!
-
+# 1. `load` dependencies, imports, and ontology
+# 2. [edit with Nanobot](./run.py)
+# 3. `reload` imports and ontology
 
 ### Configuration
 #
@@ -161,4 +162,4 @@ load: load_imports load_ontology
 save: $(foreach t,$(wildcard src/tables/*),export_$(basename $(notdir $t)))
 
 .PHONY: reload
-reload: update_import load_ontology
+reload: save load_ontology
