@@ -9,10 +9,10 @@ if __name__ == '__main__':
     run(
         "build/demo.db",
         "src/tables/table.tsv",
-        base_ontology="odd",
-        # cgi_path="/OBI/branches/demo-site/views/src/scripts/run.py",
+        base_ontology="demo",
+        cgi_path="/ODD/branches/fix-1/views/run.py",
         default_params={"view": "tree"},
-        default_table="odd",
+        default_table="demo",
         hide_index=True,
         import_table="import",
         max_children=100,
@@ -39,4 +39,5 @@ if __name__ == '__main__':
             "*"
         ],
         flask_host="0.0.0.0",
+        flask_port="5555",
     )
