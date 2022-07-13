@@ -1,0 +1,5 @@
+.venv/
+build/
+junk/
+shell.nix
+todo.md
