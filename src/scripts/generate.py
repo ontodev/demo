@@ -30,13 +30,25 @@ def write_tsv(path, rows):
 
 def generate_strains():
     random.seed(0)
-    rows = []
-    for r in range(1, 100):
-        sp = random.choice(species)
+    strains = []
+    while len(strains) < 10000:
         length = random.randint(2, 6)
         strain = "".join(random.choice(chars) for i in range(length))
+        found = False
+        for s in strains:
+            if s == strain:
+                found = True
+                break
+        if found:
+            continue
+        strains.append(strain)
+
+    rows = []
+    for r in range(0, len(strains)):
+        strain = strains[r]
+        sp = random.choice(species)
         rows.append({
-            "ID": f"ex:strain_{r}",
+            "ID": f"ex:strain_{r+1}",
             "label": f"{sp} strain {strain}",
             "species": sp,
         })

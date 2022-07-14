@@ -1,18 +1,18 @@
 ### Workflow
 #
-# 1. `load` dependencies, imports, and ontology
-# 2. edit with
+# 1. `make load` dependencies, imports, and ontology
+# 2. view and edit with
+#   - Nanobot: `./run.py` then `make save`
 #   - Excel: edit `make demo.xlsx` then `./src/scripts/upload.py`
-#   - [Nanobot](./run.py)
-# 3. `reload` imports and ontology
+# 3. `make reload` imports and ontology
 # 4. check the `git diff`
 # 5. `git commit` then `git push` your changes
 #
 ##### Files
 #
-# - `build/demo.owl`
-# - `demo.xlsx`
-# - validation `build/messages.tsv`
+# - `make build/demo.owl`
+# - `make demo.xlsx`
+# - validation `make build/messages.tsv`
 	
 
 ### Configuration
