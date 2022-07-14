@@ -1,8 +1,19 @@
 ### Workflow
 #
 # 1. `load` dependencies, imports, and ontology
-# 2. [edit with Nanobot](./run.py)
+# 2. edit with
+#   - Excel: edit `make demo.xlsx` then `./src/scripts/upload.py`
+#   - [Nanobot](./run.py)
 # 3. `reload` imports and ontology
+# 4. check the `git diff`
+# 5. `git commit` then `git push` your changes
+#
+##### Files
+#
+# - `build/demo.owl`
+# - `demo.xlsx`
+# - validation `build/messages.tsv`
+	
 
 ### Configuration
 #
@@ -68,7 +79,7 @@ VALVE := build/valve
 
 ### Databases
 
-TABLES := $(wildcard src/tables/*)
+TABLES := $(shell cut -f 2 src/tables/table.tsv | tail -n+2)
 
 # TODO: Fix the DROP TABLE hack
 build/demo.db: src/tables/table.tsv $(TABLES) | build/valve
@@ -126,10 +137,26 @@ build/%_imports.owl: build/%_imports.ttl | build/robot.jar
 export_%:
 	python3 -m cmi_pb_script.export data build/demo.db src/tables/ $(subst -,_,$*)
 
+build/messages.tsv: | build
+	python3 -m cmi_pb_script.export messages --a1 build/demo.db build assay strain
+
 .PHONY: update_import
 update_import:
 	python3 -m cmi_pb_script.export data build/demo.db src/tables/ import
 	python3 -m cmi_pb_script.export data build/demo.db src/tables/ import_config
+
+### Excel
+
+.axle:
+	axle init demo
+	$(foreach t,$(TABLES),axle add $t;)
+
+demo.xlsx: | .axle
+	make build/messages.tsv
+	axle clear all
+	axle apply build/messages.tsv
+	axle push
+
 	
 ### Ontology
 
