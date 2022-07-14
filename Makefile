@@ -150,7 +150,8 @@ update_import:
 	python3 -m cmi_pb_script.export data build/demo.db src/tables/ import_config
 
 .PHONY: save
-save: $(foreach t,$(wildcard src/tables/*),export_$(basename $(notdir $t)))
+#save: $(foreach t,$(wildcard src/tables/*),export_$(basename $(notdir $t)))
+save: export_table export_column export_import export_assay export_strain
 
 
 ### Google Sheets
