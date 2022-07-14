@@ -1,5 +1,8 @@
+.axle/
 .venv/
 build/
+demo.xlsx
 junk/
 shell.nix
 todo.md
+__pycache__/
