@@ -2,8 +2,8 @@
 #
 # 1. `make load` dependencies, imports, and ontology
 # 2. view and edit with
-#   - Nanobot: `./run.py` then `make save`
-#   - Excel: edit `make demo.xlsx` then `./src/scripts/upload.py`
+#   - **Nanobot:** `./run.py` then `make save`
+#   - **Excel:** edit `make demo.xlsx` then `./src/scripts/upload.py`
 # 3. `make reload` imports and ontology
 # 4. check the `git diff`
 # 5. `git commit` then `git push` your changes
@@ -137,7 +137,7 @@ build/%_imports.owl: build/%_imports.ttl | build/robot.jar
 export_%:
 	python3 -m cmi_pb_script.export data build/demo.db src/tables/ $(subst -,_,$*)
 
-build/messages.tsv: | build
+build/messages.tsv: src/tables/ | build
 	python3 -m cmi_pb_script.export messages --a1 build/demo.db build assay strain
 
 .PHONY: update_import
@@ -149,10 +149,9 @@ update_import:
 
 .axle:
 	axle init demo
-	$(foreach t,$(TABLES),axle add $t;)
+	$(foreach t,$(TABLES),axle add --freeze-row 1 $t;)
 
-demo.xlsx: | .axle
-	make build/messages.tsv
+demo.xlsx: build/messages.tsv | .axle
 	axle clear all
 	axle apply build/messages.tsv
 	axle push
