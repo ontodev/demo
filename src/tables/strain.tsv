@@ -212,7 +212,6 @@ ex:strain_210	Rattus norvegicus strain Mfc	Rattus norvegicus
 ex:strain_211	Rattus norvegicus strain Yq	Rattus norvegicus
 ex:strain_212	Mus musculus strain IvhH	Mus musculus
 ex:strain_213	Rattus norvegicus strain 56W	Rattus norvegicus
-ex:strain_214-	Mus musculus strain eA3	Mus musculus
 ex:strain_215	Rattus norvegicus strain sHiK	Rattus norvegicus
 ex:strain_216	Mus musculus strain OnIgA9	Mus musculus
 ex:strain_217	Mus musculus strain zVX5Yr	Mus musculus
@@ -7220,7 +7219,6 @@ ex:strain_7218	Rattus norvegicus strain NHa	Rattus norvegicus
 ex:strain_7219	Mus musculus strain Azf	Mus musculus
 ex:strain_7220	Rattus norvegicus strain 6ydR4	Rattus norvegicus
 ex:strain_7221	Mus musculus strain LN	Mus musculus
-	Mus musculus strain jwCj	Rattus
 ex:strain_7223	Mus musculus strain LR1qFX	Mus musculus
 ex:strain_7224	Rattus norvegicus strain Gx	Rattus norvegicus
 ex:strain_7225	Rattus norvegicus strain 4u	Rattus norvegicus
@@ -9999,3 +9997,4 @@ ex:strain_9997	Mus musculus strain 5nD	Mus musculus
 ex:strain_9998	Mus musculus strain 2RDs	Mus musculus
 ex:strain_9999	Rattus norvegicus strain npUR	Rattus norvegicus
 ex:strain_10000	Mus musculus strain TLy	Mus musculus
+ex:strain_10001	Mesocricetus auratus strain ABC	Mesocricetus auratus
