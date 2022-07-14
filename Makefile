@@ -2,8 +2,9 @@
 #
 # 1. `make load` dependencies, imports, and ontology
 # 2. view and edit with
-#   - Nanobot: `./run.py` then `make save`
-#   - Excel: edit `make demo.xlsx` then `./src/scripts/upload.py`
+#   - **Nanobot:** `./run.py` then `make save`
+#   - **Google Sheets:** [edit](./src/scripts/cogs.sh), `make pull`, `make push`
+#   - **Excel:** edit `make demo.xlsx` then `./src/scripts/upload.py`
 # 3. `make reload` imports and ontology
 # 4. check the `git diff`
 # 5. `git commit` then `git push` your changes
@@ -86,6 +87,9 @@ build/demo.db: src/tables/table.tsv $(TABLES) | build/valve
 	sqlite3 $@ "DROP TABLE IF EXISTS import;"
 	$(VALVE) $< $@ > $(subst .db,.sql,$@)
 
+.PHONY:load_tables
+load_tables: build/demo.db
+
 ### Upstream ontologies for import
 
 build/%.owl.gz: | build
@@ -137,7 +141,7 @@ build/%_imports.owl: build/%_imports.ttl | build/robot.jar
 export_%:
 	python3 -m cmi_pb_script.export data build/demo.db src/tables/ $(subst -,_,$*)
 
-build/messages.tsv: | build
+build/messages.tsv: src/tables/ | build
 	python3 -m cmi_pb_script.export messages --a1 build/demo.db build assay strain
 
 .PHONY: update_import
@@ -145,14 +149,35 @@ update_import:
 	python3 -m cmi_pb_script.export data build/demo.db src/tables/ import
 	python3 -m cmi_pb_script.export data build/demo.db src/tables/ import_config
 
+.PHONY: save
+save: $(foreach t,$(wildcard src/tables/*),export_$(basename $(notdir $t)))
+
+
+### Google Sheets
+
+.cogs:
+	cogs init -t "OntoDev Demo $(shell git rev-parse --abbrev-ref HEAD)" -u "$$EMAIL" -r writer || exit 1
+	$(foreach t,$(TABLES),cogs add --freeze-row 1 $t;)
+
+.PHONY: pull
+pull: | .cogs
+	cogs pull
+	make build/demo.db
+
+.PHONY: push
+push: src/tables/ build/messages.tsv | .cogs
+	cogs clear all
+	cogs apply build/messages.tsv
+	cogs push
+
+
 ### Excel
 
 .axle:
 	axle init demo
-	$(foreach t,$(TABLES),axle add $t;)
+	$(foreach t,$(TABLES),axle add --freeze-row 1 $t;)
 
-demo.xlsx: | .axle
-	make build/messages.tsv
+demo.xlsx: build/messages.tsv | .axle
 	axle clear all
 	axle apply build/messages.tsv
 	axle push
@@ -184,9 +209,6 @@ load_ontology: build/demo.owl build/demo_search_view.sql build/demo.db | build/l
 
 .PHONY: load
 load: load_imports load_ontology
-
-.PHONY: save
-save: $(foreach t,$(wildcard src/tables/*),export_$(basename $(notdir $t)))
 
 .PHONY: reload
 reload: save load_ontology

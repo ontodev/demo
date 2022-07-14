@@ -1,4 +1,5 @@
 .axle/
+.cogs/
 .venv/
 build/
 demo.xlsx
