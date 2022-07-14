@@ -27,6 +27,6 @@ import_config	Predicates		trimmed_line
 assay	ontology ID		OBI_ID			
 assay	label		label	unique		
 assay	parent	empty	label	tree(label)		
-strain	ID		CURIE			
+strain	ID		ontology_id	unique		
 strain	label		label			
-strain	species		label	from(import.Label)		
+strain	species		ontology_label	from(import.Label)		
