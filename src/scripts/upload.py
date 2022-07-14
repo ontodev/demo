@@ -158,6 +158,7 @@ def main():
 
         fetch()
         merge()
+        os.system("make load_tables")
 
 
 if __name__ == "__main__":
