@@ -1,9 +1,9 @@
 table	path	description	type
-assay	src/tables/assay.tsv		
+table	src/tables/table.tsv	All of the user-editable tables in this project.	table
 column	src/tables/column.tsv	Columns for all of the tables.	column
 datatype	src/tables/datatype.tsv	Datatypes for all of the columns	datatype
+prefix	src/tables/prefix.tsv		
 import	src/tables/import.tsv		
 import_config	src/tables/import_config.tsv		
-prefix	src/tables/prefix.tsv		
+assay	src/tables/assay.tsv		
 strain	src/tables/strain.tsv		
-table	src/tables/table.tsv	All of the user-editable tables in this project.	table
