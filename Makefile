@@ -14,7 +14,7 @@
 # - `make build/demo.owl`
 # - `make demo.xlsx`
 # - validation `make build/messages.tsv`
-	
+
 
 ### Configuration
 #
@@ -28,6 +28,17 @@ SHELL := bash
 .DELETE_ON_ERROR:
 .SUFFIXES:
 .SECONDARY:
+
+# TODO: Remove this refresh recipe that I was using during dev. It is useful for making ad hoc
+# changes to the nanobot, sprocket, and gadget repos and testing them out in DROID. Otherwise you
+# would have to push those changes first so that ontodev_demo can grab them from GitHub.
+.PHONY: refresh
+
+refresh:
+	sudo cp run.py Makefile Dockerfile requirements.txt run.sh /home/mike/Knocean/droid/projects/ODD/workspace/fix-1
+	#sudo cp nanobot/nanobot/*.py /home/mike/Knocean/droid/projects/ODD/workspace/fix-1/nanobot/nanobot/
+	#sudo cp sprocket/sprocket/*.py /home/mike/Knocean/droid/projects/ODD/workspace/fix-1/sprocket/sprocket/
+	#sudo cp gadget/gadget/*.py /home/mike/Knocean/droid/projects/ODD/workspace/fix-1/gadget/gadget/
 
 ### Definitions
 
@@ -63,18 +74,24 @@ LDTAB := java -jar build/ldtab.jar
 ### VALVE
 #
 # Use VALVE to validate tables.
-UNAME := $(shell uname)
-ifeq ($(UNAME), Darwin)
-    VALVE_URL := https://github.com/ontodev/valve.rs/releases/download/v0.1.0/ontodev_valve-x86_64-apple-darwin.zip
-else
-    VALVE_URL := https://github.com/ontodev/valve.rs/releases/download/v0.1.0/ontodev_valve-x86_64-unknown-linux-musl.zip
-endif
-build/valve: | build
-	rm -f $@.zip build/ontodev_valve-*
-	curl -L -o $@.zip $(VALVE_URL)
-	unzip -d build/ $@.zip
-	mv build/ontodev_valve-* $@
-	chmod +x $@
+
+# TODO: The code below is good, but we are commenting it out for now so that we can get the local code instead (for dev).
+#UNAME := $(shell uname)
+#ifeq ($(UNAME), Darwin)
+#    VALVE_URL := https://github.com/ontodev/valve.rs/releases/download/v0.1.9/ontodev_valve-x86_64-apple-darwin
+#else
+#    VALVE_URL := https://github.com/ontodev/valve.rs/releases/download/v0.1.9/ontodev_valve-x86_64-unknown-linux-musl
+#endif
+#build/valve: | build
+#	rm -f $@
+#	curl -L -o $@ $(VALVE_URL)
+#	chmod +x $@
+
+# TODO: Remove this dev-only code:
+build/valve: valve.rs/src/* | build
+	rm -f $@
+	cd valve.rs && make $(@F)
+	cp valve.rs/valve $@
 
 VALVE := build/valve
 
@@ -183,7 +200,7 @@ demo.xlsx: build/messages.tsv | .axle
 	axle apply build/messages.tsv
 	axle push
 
-	
+
 ### Ontology
 
 build/strain.tsv: src/tables/strain.tsv

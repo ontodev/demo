@@ -1,5 +1,9 @@
-ontodev-cogs
-graphlib-backport
-openpyxl
-git+https://github.com/ontodev/axle.git
-urlp
+ontodev-cogs==0.3.3
+graphlib-backport==1.0.3
+openpyxl==3.0.10
+git+https://github.com/ontodev/axle.git@9152a0cfded98e2631094e9e5f9caf6865e6f392
+git+https://github.com/ontodev/nanobot.git@postgres-support
+git+https://github.com/ontodev/sprocket.git@postgres-support
+git+https://github.com/ontodev/gadget.git@postgres-support
+urlp==0.0.3
+psycopg2==2.9.3
