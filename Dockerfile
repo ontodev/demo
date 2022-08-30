@@ -28,7 +28,8 @@ RUN mv Cargo.toml wiring.rs/
 RUN echo "mod python_module;" >> wiring.rs/src/lib.rs
 RUN pip install -U pip maturin
 RUN maturin build --release --out dist -m wiring.rs/Cargo.toml
-RUN pip install dist/wiring_rs-0.1.1-cp36-abi3-manylinux_2_28_x86_64.whl
+WORKDIR /tools/wiring.py/dist
+RUN pip install wiring_rs-0.1.1-cp36-abi3-manylinux_2_28_x86_64.whl
 
 
 
@@ -61,10 +62,12 @@ RUN pip install dist/wiring_rs-0.1.1-cp36-abi3-manylinux_2_28_x86_64.whl
 #COPY gadget/gadget/*.py gadget/
 #RUN pip install -e .
 
+
+
 # install project Python requirements
-WORKDIR /tools
-COPY requirements.txt /tools/obi-requirements.txt
-RUN pip install -r obi-requirements.txt
+#WORKDIR /tools
+#COPY requirements.txt /tools/obi-requirements.txt
+#RUN pip install -r obi-requirements.txt
 
 # restore WORKDIR
 WORKDIR /tools
