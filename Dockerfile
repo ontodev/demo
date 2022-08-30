@@ -63,6 +63,7 @@ RUN pip install -e .
 # install project Python requirements
 WORKDIR /tools
 COPY requirements.txt /tools/obi-requirements.txt
+COPY run.py /tools/
 RUN pip install -r obi-requirements.txt
 
 # restore WORKDIR
