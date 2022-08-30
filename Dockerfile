@@ -41,7 +41,7 @@ WORKDIR /tools
 RUN git clone -b postgres-support https://github.com/ontodev/nanobot.git
 WORKDIR /tools/nanobot
 ## TODO: Remove this copy later that we use to copy over files from the local filesystem (dev only).
-COPY nanobot/nanobot/*.py nanobot/
+#COPY nanobot/nanobot/*.py nanobot/
 RUN pip install -e .
 
 # install sprocket
@@ -49,7 +49,7 @@ WORKDIR /tools
 RUN git clone -b postgres-support https://github.com/ontodev/sprocket.git
 WORKDIR /tools/sprocket
 ## TODO: Remove this copy later that we use to copy over files from the local filesystem (dev only).
-COPY sprocket/sprocket/*.py sprocket/
+#COPY sprocket/sprocket/*.py sprocket/
 RUN pip install -e .
 
 # install gadget
@@ -57,7 +57,7 @@ WORKDIR /tools
 RUN git clone -b postgres-support https://github.com/ontodev/gadget.git
 WORKDIR /tools/gadget
 ## TODO: Remove this copy later that we use to copy over files from the local filesystem (dev only).
-COPY gadget/gadget/*.py gadget/
+#COPY gadget/gadget/*.py gadget/
 RUN pip install -e .
 
 # install project Python requirements
@@ -65,10 +65,10 @@ WORKDIR /tools
 COPY requirements.txt /tools/obi-requirements.txt
 RUN pip install -r obi-requirements.txt
 
-#RUN mkdir build
-#COPY build/demo.db build/
-#COPY run.py /tools
-#COPY src src
+RUN mkdir build
+COPY build/demo.db build/
+COPY run.py /tools
+COPY src src
 
 # restore WORKDIR
 WORKDIR /tools
