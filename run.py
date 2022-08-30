@@ -7,8 +7,9 @@ from nanobot import run
 if __name__ == '__main__':
     # os.chdir("../..")
     run(
-        "build/demo.db",
-        "src/tables/table.tsv",
+        db="build/demo.db",
+        postgres_url="postgresql://root@/ontodev_demo",
+        table_config="src/tables/table.tsv",
         base_ontology="demo",
         cgi_path="/ODD/branches/fix-1/views/run.py",
         #default_params={"view": "tree"},
