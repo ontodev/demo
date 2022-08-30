@@ -8,8 +8,8 @@ if __name__ == '__main__':
     # os.chdir("../..")
     run(
         db="build/demo.db",
-        postgres_url="postgresql://root@/ontodev_demo",
         table_config="src/tables/table.tsv",
+        postgres_url="postgresql://root@/ontodev_demo",
         base_ontology="demo",
         cgi_path="/ODD/branches/fix-1/views/run.py",
         #default_params={"view": "tree"},
