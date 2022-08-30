@@ -36,9 +36,9 @@ SHELL := bash
 
 refresh:
 	sudo cp run.py Makefile Dockerfile requirements.txt run.sh /home/mike/Knocean/droid/projects/ODD/workspace/fix-1
-	#sudo cp nanobot/nanobot/*.py /home/mike/Knocean/droid/projects/ODD/workspace/fix-1/nanobot/nanobot/
-	#sudo cp sprocket/sprocket/*.py /home/mike/Knocean/droid/projects/ODD/workspace/fix-1/sprocket/sprocket/
-	#sudo cp gadget/gadget/*.py /home/mike/Knocean/droid/projects/ODD/workspace/fix-1/gadget/gadget/
+	sudo cp nanobot/nanobot/*.py /home/mike/Knocean/droid/projects/ODD/workspace/fix-1/nanobot/nanobot/
+	sudo cp sprocket/sprocket/*.py /home/mike/Knocean/droid/projects/ODD/workspace/fix-1/sprocket/sprocket/
+	sudo cp gadget/gadget/*.py /home/mike/Knocean/droid/projects/ODD/workspace/fix-1/gadget/gadget/
 
 ### Definitions
 
