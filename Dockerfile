@@ -31,43 +31,39 @@ RUN maturin build --release --out dist -m wiring.rs/Cargo.toml
 WORKDIR /tools/wiring.py/dist
 RUN pip install wiring_rs-0.1.1-cp36-abi3-manylinux_2_28_x86_64.whl
 
-
-
 # TODO: Remove the commented-out code below that I was using during dev.
 # The commented-out code below is useful for making ad hoc changes to the nanobot, sprocket, and
 # gadget repos and testing them out in DROID. Otherwise you would have to push those changes
 # first so that ontodev_demo can grab them from GitHub.
 
-# install nanobot
+## install nanobot
 #WORKDIR /tools
 #RUN git clone https://github.com/ontodev/nanobot.git
 #WORKDIR /tools/nanobot
-# TODO: Remove this copy later that we use to copy over files from the local filesystem (dev only).
+## TODO: Remove this copy later that we use to copy over files from the local filesystem (dev only).
 #COPY nanobot/nanobot/*.py nanobot/
 #RUN pip install -e .
-
-# install sprocket
+#
+## install sprocket
 #WORKDIR /tools
 #RUN git clone https://github.com/ontodev/sprocket.git
 #WORKDIR /tools/sprocket
-# TODO: Remove this copy later that we use to copy over files from the local filesystem (dev only).
+## TODO: Remove this copy later that we use to copy over files from the local filesystem (dev only).
 #COPY sprocket/sprocket/*.py sprocket/
 #RUN pip install -e .
-
-# install gadget
+#
+## install gadget
 #WORKDIR /tools
 #RUN git clone https://github.com/ontodev/gadget.git
 #WORKDIR /tools/gadget
-# TODO: Remove this copy later that we use to copy over files from the local filesystem (dev only).
+## TODO: Remove this copy later that we use to copy over files from the local filesystem (dev only).
 #COPY gadget/gadget/*.py gadget/
 #RUN pip install -e .
 
-
-
 # install project Python requirements
-#WORKDIR /tools
-#COPY requirements.txt /tools/obi-requirements.txt
-#RUN pip install -r obi-requirements.txt
+WORKDIR /tools
+COPY requirements.txt /tools/obi-requirements.txt
+RUN pip install -r obi-requirements.txt
 
 # restore WORKDIR
 WORKDIR /tools
