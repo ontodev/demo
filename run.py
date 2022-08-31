@@ -11,7 +11,7 @@ if __name__ == '__main__':
         table_config="src/tables/table.tsv",
         postgres_url="postgresql://root@/ontodev_demo",
         base_ontology="demo",
-        cgi_path="/ODD/branches/fix-1/views/run.py",
+        cgi_path="/ODD/branches/postgres-support/views/run.py",
         #default_params={"view": "tree"},
         default_table="table",
         hide_index=True,
