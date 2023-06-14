@@ -24,3 +24,12 @@ Try browsing to:
 
 When you update your tables, run `make clean` before running `make serve` again.
 
+
+# Docker
+
+If you have Docker installed, you should be able to use it to run commands:
+
+```sh
+./run.sh make serve
+```
+

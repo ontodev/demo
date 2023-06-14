@@ -20,7 +20,6 @@
 # <http://clarkgrubb.com/makefile-style-guide#toc2>
 
 MAKEFLAGS += --warn-undefined-variables
-.SHELLFLAGS := -eu -o pipefail -c
 .DEFAULT_GOAL := all
 .DELETE_ON_ERROR:
 .SUFFIXES:
@@ -85,7 +84,6 @@ clean:
 .PHONY: serve
 serve: .nanobot.db
 	$(NANOBOT) serve
-
 
 
 ### Upstream ontologies for import
