@@ -2,9 +2,7 @@
 #
 # 1. `make load` dependencies, imports, and ontology
 # 2. view and edit with
-#   - **Nanobot:** `./run.py` then `make save`
-#   - **Google Sheets:** [edit](./src/scripts/cogs.sh), `make pull`, `make push`
-#   - **Excel:** edit `make demo.xlsx` then `./src/scripts/upload.py`
+#   - **Nanobot:** `./nanobot` then `make save`
 # 3. `make reload` imports and ontology
 # 4. check the `git diff`
 # 5. `git commit` then `git push` your changes
@@ -22,7 +20,6 @@
 # <http://clarkgrubb.com/makefile-style-guide#toc2>
 
 MAKEFLAGS += --warn-undefined-variables
-SHELL := bash
 .SHELLFLAGS := -eu -o pipefail -c
 .DEFAULT_GOAL := all
 .DELETE_ON_ERROR:
@@ -30,8 +27,6 @@ SHELL := bash
 .SECONDARY:
 
 ### Definitions
-
-SHELL   := /bin/bash
 
 define \n
 
@@ -60,35 +55,38 @@ build/ldtab.jar: | build
 
 LDTAB := java -jar build/ldtab.jar
 
-### VALVE
-#
-# Use VALVE to validate tables.
+### Nanobot
 UNAME := $(shell uname)
 ifeq ($(UNAME), Darwin)
-    VALVE_URL := https://github.com/ontodev/valve.rs/releases/download/v0.1.0/ontodev_valve-x86_64-apple-darwin.zip
+    NANOBOT_URL := https://github.com/ontodev/nanobot.rs/releases/download/v0.1.0/nanobot-x86_64-apple-darwin.zip
 else
-    VALVE_URL := https://github.com/ontodev/valve.rs/releases/download/v0.1.0/ontodev_valve-x86_64-unknown-linux-musl.zip
+    NANOBOT_URL := https://github.com/ontodev/nanobot.rs/releases/download/v2023-06-14/nanobot-x86_64-unknown-linux-musl
 endif
-build/valve: | build
-	rm -f $@.zip build/ontodev_valve-*
-	curl -L -o $@.zip $(VALVE_URL)
-	unzip -d build/ $@.zip
-	mv build/ontodev_valve-* $@
+build/nanobot: | build
+	rm -f $@ $@-*
+	curl -L -o $@ $(NANOBOT_URL)
 	chmod +x $@
 
-VALVE := build/valve
+NANOBOT := build/nanobot
 
 ### Databases
 
 TABLES := $(shell cut -f 2 src/tables/table.tsv | tail -n+2)
 
-# TODO: Fix the DROP TABLE hack
-build/demo.db: src/tables/table.tsv $(TABLES) | build/valve
-	sqlite3 $@ "DROP TABLE IF EXISTS import;"
-	$(VALVE) $< $@ > $(subst .db,.sql,$@)
+### Basics
 
-.PHONY:load_tables
-load_tables: build/demo.db
+.PHONY: clean
+clean:
+	rm -rf .nanobot.db build/
+
+.nanobot.db: $(NANOBOT)
+	$(NANOBOT) init
+
+.PHONY: serve
+serve: .nanobot.db
+	$(NANOBOT) serve
+
+
 
 ### Upstream ontologies for import
 
@@ -154,36 +152,6 @@ update_import:
 save: export_table export_column export_import export_assay export_strain
 
 
-### Google Sheets
-
-.cogs:
-	cogs init -t "OntoDev Demo $(shell git rev-parse --abbrev-ref HEAD)" -u "$$EMAIL" -r writer || exit 1
-	$(foreach t,$(TABLES),cogs add --freeze-row 1 $t;)
-
-.PHONY: pull
-pull: | .cogs
-	cogs pull
-	make build/demo.db
-
-.PHONY: push
-push: src/tables/ build/messages.tsv | .cogs
-	cogs clear all
-	cogs apply build/messages.tsv
-	cogs push
-
-
-### Excel
-
-.axle:
-	axle init demo
-	$(foreach t,$(TABLES),axle add --freeze-row 1 $t;)
-
-demo.xlsx: build/messages.tsv | .axle
-	axle clear all
-	axle apply build/messages.tsv
-	axle push
-
-	
 ### Ontology
 
 build/strain.tsv: src/tables/strain.tsv
