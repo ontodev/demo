@@ -2,7 +2,7 @@
 config_version = 1
 
 [logging]
-level = "DEBUG"
+# level = "DEBUG"
 
 [valve]
 path = "src/tables/table.tsv"

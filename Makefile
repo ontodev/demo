@@ -2,7 +2,8 @@
 #
 # 1. `make load` dependencies, imports, and ontology
 # 2. view and edit with
-#   - **Nanobot:** `./nanobot` then `make save`
+#   - **Nanobot:** `./nanobot.sh` then `make save`
+#   - **CGI:** `./cgi.sh` then `make save`
 # 3. `make reload` imports and ontology
 # 4. check the `git diff`
 # 5. `git commit` then `git push` your changes
