@@ -1,9 +1,7 @@
 ### Workflow
 #
 # 1. `make load` dependencies, imports, and ontology
-# 2. view and edit with
-#   - **Nanobot:** `./nanobot.sh` then `make save`
-#   - **CGI:** `./cgi.sh` then `make save`
+# 2. view and edit with `./nanobot` then `make save`
 # 3. `make reload` imports and ontology
 # 4. check the `git diff`
 # 5. `git commit` then `git push` your changes
@@ -57,17 +55,17 @@ LDTAB := java -jar build/ldtab.jar
 
 ### Nanobot
 UNAME := $(shell uname)
-ifeq ($(UNAME), Darwin)
-    NANOBOT_URL := https://github.com/ontodev/nanobot.rs/releases/download/v0.1.0/nanobot-x86_64-apple-darwin.zip
-else
-    NANOBOT_URL := https://github.com/ontodev/nanobot.rs/releases/download/v2023-06-14/nanobot-x86_64-unknown-linux-musl
-endif
-build/nanobot: | build
+#ifeq ($(UNAME), Darwin)
+#    NANOBOT_URL := https://github.com/ontodev/nanobot.rs/releases/download/v0.1.0/nanobot-x86_64-apple-darwin.zip
+#else
+    NANOBOT_URL := https://github.com/ontodev/nanobot.rs/releases/download/v2023-06-22/nanobot-x86_64-unknown-linux-musl
+#endif
+nanobot:
 	rm -f $@ $@-*
 	curl -L -o $@ $(NANOBOT_URL)
 	chmod +x $@
 
-NANOBOT := build/nanobot
+NANOBOT := ./nanobot
 
 ### Databases
 
@@ -77,10 +75,13 @@ TABLES := $(shell cut -f 2 src/tables/table.tsv | tail -n+2)
 
 .PHONY: clean
 clean:
-	rm -rf .nanobot.db build/
+	rm -rf .nanobot.db nanobot build/
 
 .nanobot.db: $(NANOBOT)
 	$(NANOBOT) init
+	
+.PHONY: init
+init: .nanobot.db
 
 .PHONY: serve
 serve: .nanobot.db
