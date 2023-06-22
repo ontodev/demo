@@ -11,25 +11,25 @@ A demonstration of the [OntoDev Suite](https://ontodev.com) of ontology developm
     - `table.tsv`, `column.tsv`, `datatype.tsv` configure [VALVE](https://github.com/ontodev/valve)
     - `import_config.tsv`, `import.tsv` configure [Gadget](https://github.com/ontodev/gadget)
 - `Makefile` configures various build tasks
-- `Dockerfile` configures a portable Docker image
 
-## Online Development with DROID
+# Nanobot WebUI
 
-<https://droid.ontodev.com/ODD>
+You can validate your data and view the Nanobot WebUI using `make serve`.
+Try browsing to:
 
-[DROID](https://github.com/ontodev/droid) is our web-based workflow execution tool. You can look around, but to do anything very interesting, you need `write` permissions on this GitHub repository. Contact james@overton.ca with your GitHub username to request access.
+- <http://localhost:3000/table> the index table
+- <http://localhost:3000/table/row/1?view=form> editing form
+- <http://localhost:3000/table/row/1?view=mapping> custom editing form
+  defined in `src/templates/mapping.html`
 
-## Local Development with Docker
+When you update your tables, run `make clean` before running `make serve` again.
 
-This demonstration requires a range of different software that can be difficult to install. We provide a Docker image to take care of those installation details. You should be able to `git clone` this repository and then execute development tasks inside a Docker container. The `run.sh` script tries to make this even easier:
 
-- `./run.sh`
+# Docker
 
-The `run.sh` is Unix-specific, but Docker shoud work the same under Windows.
+If you have Docker installed, you should be able to use it to run commands:
 
-The Dockerfile is probably specific to `x86` CPU architectures. We would like to support `arm64` -- help would be appreciated!
-
-## Development Tasks
-
-TODO: See the `Makefile` for now.
+```sh
+./run.sh make serve
+```
 
